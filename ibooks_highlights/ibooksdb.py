@@ -1,8 +1,11 @@
 import pathlib
 import sqlite3
 import functools
+import subprocess
+from time import sleep
+from tqdm import tqdm
 
-from typing import (List, Dict, Optional, Union, Callable)
+from typing import (List, Dict, Union)
 
 
 SqliteQueryType = List[Dict[str, Union[str, int]]]
@@ -15,6 +18,13 @@ BOOK_DB_PATH = (
     pathlib.Path.home() /
     "Library/Containers/com.apple.iBooksX/Data/Documents/BKLibrary/"
 )
+
+BOOKS_APP_PATH = (
+    pathlib.Path.home() /
+    "/System/Applications/Books.app"
+)
+
+BOOKS_APP_NAME = "Books"
 
 
 ATTACH_BOOKS_QUERY = """
@@ -53,7 +63,7 @@ from ZAEANNOTATION
 left join books.ZBKLIBRARYASSET
 on ZAEANNOTATION.ZANNOTATIONASSETID = books.ZBKLIBRARYASSET.ZASSETID
 
-where ZANNOTATIONDELETED = 0
+where ZANNOTATIONDELETED = 0 and (title not null and author not null) and ((selected_text != '' and selected_text not null) or note not null)
 
 order by ZANNOTATIONASSETID, ZPLLOCATIONRANGESTART;
 """
@@ -61,17 +71,17 @@ order by ZANNOTATIONASSETID, ZPLLOCATIONRANGESTART;
 
 @functools.lru_cache(maxsize=1)
 def get_ibooks_database() -> sqlite3.Cursor:
-
+    
     sqlite_files = list(ANNOTATION_DB_PATH.glob("*.sqlite"))
 
-    if len(sqlite_files) is 0:
+    if len(sqlite_files) == 0:
         raise FileNotFoundError("iBooks database not found")
     else:
         sqlite_file = sqlite_files[0]
 
     assets_files = list(BOOK_DB_PATH.glob("*.sqlite"))
 
-    if len(assets_files) is 0:
+    if len(assets_files) == 0:
         raise FileNotFoundError("iBooks assets database not found")
     else:
         assets_file = assets_files[0]
@@ -86,8 +96,14 @@ def get_ibooks_database() -> sqlite3.Cursor:
     return cursor
 
 
-def fetch_annotations() -> SqliteQueryType:
-
+def fetch_annotations(refresh: bool, sleep_time: int = 20) -> SqliteQueryType:
+    # refresh database by opening Books and waiting
+    if refresh:
+        subprocess.run(f"open {BOOKS_APP_PATH}".split())
+        print("Refreshing database...")
+        for i in tqdm(range(sleep_time)):
+            sleep(1)
+        subprocess.run(["osascript", "-e" , f'quit app "{BOOKS_APP_NAME}"'])
     cur = get_ibooks_database()
     exe = cur.execute(NOTE_LIST_QUERY)
     res = exe.fetchall()

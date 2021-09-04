@@ -25,17 +25,16 @@ class Annotation(object):
 
         if (selected_text is None) and (note is None):
             raise ValueError('specify either selected_text or note')
-
+        
+        stripspaces = lambda x : x.strip() if x else x
         self.location = location
-        self.selected_text = selected_text
+        self.selected_text = stripspaces(selected_text)
 
-        if represent_text is not None:
-            represent_text = represent_text.strip()
-        self.represent_text = represent_text
+        self.represent_text = stripspaces(represent_text)
 
         self.chapter = chapter
         self.style = style
-        self.note = note
+        self.note = stripspaces(note)
         self.modified_date = modified_date
 
     def __getitem__(self, key: str) -> Any:
@@ -168,7 +167,7 @@ class Book(object):
             else:
                 return False
 
-        if len(self._annotations) is 0:
+        if len(self._annotations) == 0:
             return False
 
         anno_max = max([
