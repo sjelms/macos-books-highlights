@@ -8,22 +8,22 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 setup(
-    name='ibooks-highlights',
+    name='apple-books-highlights',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     version='0.1.0',
 
-    description='iBooks highlights exporter',
-    long_description='Export your iBooks highlights to markdown files.',
+    description='Apple Books highlights exporter',
+    long_description='Export your Apple Books highlights to markdown files.',
 
     # The project's main homepage.
-    url='https://github.com/matttrent/ibooks-highlights',
+    url='https://github.com/hivestrung/apple-books-highlights',
 
     # Author details
-    author='Matthew Trentacoste',
-    author_email='web+git@matttrent.com',
+    author='Shiv Godhia',
+    author_email='shivgodhia@gmail.com',
 
     # Choose your license
     license='MIT',
@@ -50,6 +50,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.9',
     ],
 
     # What does your project relate to?
@@ -73,7 +74,8 @@ setup(
         'python-dateutil>=2.5.3',
         'python-frontmatter>=0.3.1',
         'python-slugify>=1.2.4',
-        'click>=6.7'
+        'click>=6.7',
+        'tqdm>=4.62.2'
     ],
 
     # List additional groups of dependencies here (e.g. development
@@ -89,7 +91,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        'ibooks_highlights': ['templates/*.md'],
+        'apple_books_highlights': ['templates/*.md'],
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
@@ -102,7 +104,7 @@ setup(
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
     scripts=[
-        'scripts/ibooks-highlights.py',
+        'scripts/apple-books-highlights.py',
     ],
     # entry_points={
     #     'console_scripts': [
