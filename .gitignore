@@ -64,3 +64,4 @@ books
 .idea
 .mypy_cache
 .vscode/settings.json
+ibooks-highlights.code-workspace
