@@ -16,15 +16,21 @@ It preserves each book's identifier (and some other data) in the YAML header of 
 
 ## Usage
 
-Simplest way to get your highlights, though I recommend creating a `virtualenv` first:
+Simplest way to get your highlights, though you might want to create a `virtualenv` first:
 
 ```
-$ python setup.py install
-$ ibooks-highlights.py sync
+$ python3 setup.py install
+$ apple-books-highlights.py sync
 $ ll books
 ```
 
-What you get per book:
+I've personally used a bash alias like this, so I can call `sync-books` from terminal anywhere on my system to update the annotations:
+
+```
+alias sync-books="apple-books-highlights.py --bookdir 'absolute/path/to/folder' sync"
+```
+
+## What you get per book
 
 ```
 ---
@@ -38,11 +44,11 @@ title: Sapiens A Brief History of Humankind
 
 By Yuval Noah Harari
 
-## My notes <a name="my_notes_dont_delete"></a>
+## My Notes <a name="my_notes_dont_delete"></a>
 
 
 
-## iBooks notes <a name="ibooks_notes_dont_delete"></a>
+## Book Highlights & Notes <a name="apple_books_notes_dont_delete"></a>
 
 ### 2: The Tree of Knowledge
 
@@ -54,7 +60,7 @@ This was the key to Sapiens’ success. In a one-on-one brawl, a Neanderthal wou
 To get a list of books (asterisk means there's unsynced highlights):
 
 ```
-$ ibooks-highlights.py list
+$ apple-books-highlights.py list
 
 D36605A6   1	Bayesian Methods for Hackers
 80EE27E1   27	Dune
@@ -67,19 +73,23 @@ F6C97901   77	The Idea Factory
 To set output directory:
 
 ```
-$ ibooks-highlights.py -b other-books sync
+$ apple-books-highlights.py -b other-books sync
 ```
 
 Change default output directory via environment variable:
 
 ```
-export IBOOKS_HIGHLIGHT_DIRECTORY=some/other/folder
+export APPLE_BOOKS_HIGHLIGHT_DIRECTORY=some/other/folder
 ```
 
 To disable the automatic opening (and closing) of Apple Books, which is used to force a refresh of the database of annotations:
 
 ```
-$ ibooks-highlights.py sync -n
+$ apple-books-highlights.py sync -n
+```
+or
+```
+$ apple-books-highlights.py list -n
 ```
 
 ## TODO
