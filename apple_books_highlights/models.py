@@ -90,30 +90,30 @@ class Book(object):
         self._reader_notes = ''
 
         reader_notes_start = None
-        ibooks_notes_start = None
+        apple_books_notes_start = None
 
         prev_content_lines = self._prev_content.splitlines()
 
         for i, line in enumerate(prev_content_lines):
             if """<a name="my_notes_dont_delete"></a>""" in line:
                 reader_notes_start = i
-            if """<a name="ibooks_notes_dont_delete"></a>""" in line:
-                ibooks_notes_start = i
+            if """<a name="apple_books_notes_dont_delete"></a>""" in line:
+                apple_books_notes_start = i
 
         # if not present, abort
-        if reader_notes_start is None and ibooks_notes_start is None:
+        if reader_notes_start is None and apple_books_notes_start is None:
             return
 
         # if same line, that's not good
-        if reader_notes_start == ibooks_notes_start:
+        if reader_notes_start == apple_books_notes_start:
             raise BookMetadataError('Note section identifiers on same line')
 
         # if different line, select the appropriate portion of the content
         if reader_notes_start is None:
-            reader_lines = prev_content_lines[3:ibooks_notes_start]
-        elif reader_notes_start < ibooks_notes_start:
+            reader_lines = prev_content_lines[3:apple_books_notes_start]
+        elif reader_notes_start < apple_books_notes_start:
             reader_lines = prev_content_lines[
-                reader_notes_start+1:ibooks_notes_start]
+                reader_notes_start+1:apple_books_notes_start]
         else:
             reader_lines = prev_content_lines[reader_notes_start+1:]
 

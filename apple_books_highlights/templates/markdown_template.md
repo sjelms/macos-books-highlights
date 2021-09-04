@@ -2,11 +2,11 @@
 
 By {{author}}
 
-## My notes <a name="my_notes_dont_delete"></a>
+## Overall Notes <a name="my_notes_dont_delete"></a>
 
 {{ reader_notes }}
 
-## iBooks notes <a name="ibooks_notes_dont_delete"></a>
+## Book Highlights & Notes <a name="apple_books_notes_dont_delete"></a>
 {% set vars={'last': none} %}
 {% for h in highlights %}
 {# found a new chapter, print its title #}
