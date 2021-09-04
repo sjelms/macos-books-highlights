@@ -4,21 +4,21 @@
 import pathlib
 import click
 
-from ibooks_highlights.models import BookList
-from ibooks_highlights import ibooksdb
+from apple_books_highlights.models import BookList
+from apple_books_highlights import booksdb
 
 
 def get_booklist(path: pathlib.Path, refresh: bool) -> BookList:
 
     book_list = BookList(path)
-    annos = ibooksdb.fetch_annotations(refresh)
+    annos = booksdb.fetch_annotations(refresh)
     book_list.populate_annotations(annos)
     return book_list
 
 
 @click.group()
 @click.option('--bookdir', '-b', type=click.Path(), 
-              envvar='IBOOKS_HIGHLIGHT_DIRECTORY', default='./books')
+              envvar='APPLE_BOOKS_HIGHLIGHT_DIRECTORY', default='./books')
 @click.pass_context
 def cli(ctx, bookdir):
 

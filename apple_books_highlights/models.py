@@ -7,10 +7,10 @@ from typing import (List, Dict, Optional, Union, Any, Callable)
 from dateutil import parser as duparser
 from slugify import slugify
 
-from ibooks_highlights.util import (
+from apple_books_highlights.util import (
     cmp_to_key, query_compare_no_asset_id, TEMPLATE_ENVIRONMENT,
     NS_TIME_INTERVAL_SINCE_1970)
-from ibooks_highlights.ibooksdb import SqliteQueryType
+from apple_books_highlights.booksdb import SqliteQueryType
 
 
 class BookMetadataError(Exception):
