@@ -65,3 +65,26 @@ books
 .mypy_cache
 .vscode/settings.json
 ibooks-highlights.code-workspace
+
+
+# Helper context folder (troubleshooting docs)
+/_helper_context
+/Issue_Report_Plan
+/test_sandbox
+/_sample
+/output
+
+# macOS Finder metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS resource forks
+__MACOSX/
+/_reference_project
+
+# workspace
+macos-books-highlights.code-workspace
+
+# Gemini Logs
+gemini_log.md
