@@ -69,11 +69,12 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
+        'pydantic',
+        'bibtexparser',
+        'thefuzz[speedup]',
+        'PyYAML',
         'Jinja2>=2.9.5',
-        'MarkupSafe>=0.23',
         'python-dateutil>=2.5.3',
-        'python-frontmatter>=0.3.1',
-        'python-slugify>=1.2.4',
         'click>=6.7',
         'tqdm>=4.62.2'
     ],

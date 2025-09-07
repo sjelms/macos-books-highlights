@@ -1,0 +1,15 @@
+# ------------------- #
+# Configuration File  #
+# ------------------- #
+
+# Path to your master BibTeX library file.
+# Can be an absolute path or relative to this project's root directory.
+# Example: /Users/yourname/Documents/papers.bib
+bibtex_path: "_reference_project/paperpile.bib"
+
+# --- Output Directories ---
+# Where the generated files will be saved.
+# These are relative to the project's root directory.
+json_output_dir: "output/json"
+md_output_dir: "output/markdown"
+csv_output_dir: "output/csv"
