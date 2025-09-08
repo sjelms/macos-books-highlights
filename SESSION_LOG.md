@@ -31,3 +31,4 @@
 
 - **Action**: Begin **Phase 3: Integration & Workflow Orchestration**.
 - **First Task**: **T015**, which involves refactoring the main script `scripts/apple-books-highlights.py` to orchestrate the entire new workflow by tying together all the modules we created in Phase 2.
+

@@ -51,20 +51,23 @@ The new workflow will be a multi-stage pipeline that transforms raw data from th
 ### Phase 3: Exporting from JSON
 
 - **Create `exporters.py`:** This module will contain functions to generate the final output files from the enriched JSON, adhering to strict formatting rules.
-- **Markdown Exporter:**
-    - **YAML Front Matter:** Formatted precisely for Obsidian, with `citation-key` as `"[[@CitationKey]]"` and `type` as `"#entry_type-ab"`.
-    - **Markdown Body:** Formatted with specific line breaks and structures for callouts and metadata.
+- **Markdown Exporter (Append-Only):**
+    - **Workflow:** The exporter will no longer overwrite existing Markdown files. Instead, it will append new highlights, preserving any manual additions.
+    - **State Management:** To achieve this, the exporter will fetch a unique ID for each annotation from the database. When writing, it will first parse the target Markdown file for the IDs of highlights already present (stored in invisible HTML comments).
+    - **Logic:** It will then compare the list of existing IDs with the list of current highlights from the book and append only the missing ones under a new dated heading.
+    - **YAML Front Matter:** On first creation, a `creation` timestamp is added. On subsequent updates, a `modified` timestamp is added or updated.
 
 ## 4. Data Models & Formatting
 
 ### Enriched JSON Structure
 
-This is the central data structure, holding all information needed for exporters.
+A unique `annotation_id` is required to manage the append-only export logic.
 
 ```json
 {
   "metadata": {
     "citation_key": "Harari2015-ab",
+    "asset_id": "E00F1E187CE35F700419AE8312F79913",
     "title": "Sapiens – A Brief History of Humankind",
     "authors": ["Yuval Noah Harari"],
     "editors": [],
@@ -76,9 +79,11 @@ This is the central data structure, holding all information needed for exporters
   },
   "annotations": [
     {
+      "annotation_id": "FF1B3A84-A3C1-4326-8255-2392A644D333",
       "highlight": "This was the key to Sapiens’ success.",
       "note": "Very interesting example...",
       "location": "2: The Tree of Knowledge",
+      "chapter": "2: The Tree of Knowledge",
       "color": "yellow"
     }
   ]
@@ -87,7 +92,7 @@ This is the central data structure, holding all information needed for exporters
 
 ### Markdown YAML Front Matter Example
 
-This block must be formatted precisely, with no extra spaces around the citation key.
+This block must be formatted precisely for Obsidian.
 
 ```yaml
 ---
@@ -95,7 +100,10 @@ title: "Sapiens – A Brief History of Humankind"
 year: 2015
 author-1: "[[Yuval Noah Harari]]"
 citation-key: "[[@Harari2015-ab]]"
+book-id: E00F1E187CE35F700419AE8312F79913
 highlights: 1
+creation: 2023-09-13 15:16:47
+modified: 2025-09-08 09:45:57
 type: "#book-ab"
 aliases:
   - "Sapiens – A Brief History of Humankind"
@@ -105,17 +113,25 @@ aliases:
 
 ### Markdown Body Formatting Example
 
-This structure, including line breaks, is critical for Obsidian.
+This structure, including line breaks and hidden IDs, is critical.
 
 ```markdown
-# Highlights for [[@Harari2015-ab]]
+## Highlights for [[@Harari2015-ab]] on [[@Harari2015-ab|2023-09-13]]
 
+<!-- an_id: FF1B3A84-A3C1-4326-8255-2392A644D333 -->
 - This was the key to Sapiens’ success.
 > chapter: `2: The Tree of Knowledge`
 > tags: #general-ab
 
 >[!memo]
 > Very interesting example...
+
+### New highlights added on [[@Harari2015-ab|2025-09-08]]
+
+<!-- an_id: 901A3B84-A3C1-4326-8255-2392A644D456 -->
+- A conceptual framework for analysing the relationship between organisational culture and history.
+> page: `1`
+> tags: #secondary-ab
 ```
 
 ## 5. File Naming Convention
@@ -123,3 +139,35 @@ This structure, including line breaks, is critical for Obsidian.
 - **Format:** `<citation_key> <entry_type>-ab.<ext>`
 - **Example:** `Harari2015-ab book-ab.md`
 - **Requirement:** A matching BibTeX entry is mandatory. If no entry is found for a book, a warning will be logged, and no files will be created for that book.
+
+## 6. Installation & Usage
+
+This project is designed to be run from a specific Python virtual environment and requires an editable installation to function correctly due to its structure.
+
+**1. Environment Setup**
+
+Ensure you have the `~/python-venv/` virtual environment configured.
+
+**2. Install Dependencies**
+
+Install all required third-party packages.
+
+```bash
+~/python-venv/bin/pip install -r requirements.txt
+```
+
+**3. Project Installation (Editable Mode)**
+
+To make the project's internal modules importable, it must be installed in editable mode. This links the source code to your Python environment without copying it.
+
+```bash
+~/python-venv/bin/pip install -e .
+```
+
+**4. Running the Sync Process**
+
+To run the main script, execute the following command from the project's root directory:
+
+```bash
+~/python-venv/bin/python scripts/apple-books-highlights.py sync
+```

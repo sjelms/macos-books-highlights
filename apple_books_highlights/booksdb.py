@@ -33,6 +33,7 @@ attach database ? as books
 
 
 NOTE_LIST_FIELDS = [
+    'annotation_id',
     'asset_id',
     'title',
     'author',
@@ -47,6 +48,7 @@ NOTE_LIST_FIELDS = [
 
 NOTE_LIST_QUERY = """
 select 
+ZANNOTATIONUUID as annotation_id, 
 ZANNOTATIONASSETID as asset_id, 
 books.ZBKLIBRARYASSET.ZTITLE as title, 
 books.ZBKLIBRARYASSET.ZAUTHOR as author,
