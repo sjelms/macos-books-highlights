@@ -16,10 +16,8 @@
 - **`TECHNICAL.md` is the Spec**: This file defines the final output format and technical requirements.
 - **`SESSION_LOG.md` Maintenance**: This log must be kept current throughout our session. It should be updated with a detailed summary of progress before each `git commit` to ensure we can resume instantly if the session is interrupted.
 
-
-## 3. Current Status (End of Session)
-
-**Last Completed Milestone**: Phase 3: Integration & Workflow Orchestration.
+# Milestone Marker
+**Previous Completed Milestone**: Phase 3: Integration & Workflow Orchestration. [2025-09-08 10:20:44]
 
 - **Pipeline Implementation**: The main script `scripts/apple-books-highlights.py` has been completely refactored into a new orchestration engine. It now connects all the backend modules into a single, functional pipeline.
 - **Append-Only Markdown**: A critical new feature for append-only Markdown exports has been fully implemented. The script now reads existing Markdown files, identifies already-exported highlights via hidden IDs, and only appends new ones. This prevents data loss for users who edit their exported notes.
@@ -32,9 +30,26 @@
     - Pydantic v1 vs. v2 compatibility issues (`ValidationError`, `TypeError`).
 - **Documentation**: The `TECHNICAL.md` and `TASKS.md` have been meticulously updated to reflect the new architecture, append-only feature, and installation/usage instructions.
 
+
+## 3. Current Status (End of Session) [2025-09-08 12:40:40]
+
+**Last Completed Milestone**: Phase 4: Verification & Final Polish.
+
+The project refactor is functionally complete. The script successfully executes an end-to-end pipeline from database extraction to the creation of structured, multi-format exports. All core objectives have been met.
+
+- **Full Pipeline Implementation**: The main script (`scripts/apple-books-highlights.py`) and all core modules (`bib.py`, `export_json.py`, `export_md.py`, `export_csv.py`) were successfully refactored into a robust, class-based orchestration engine.
+
+- **Append-Only Markdown**: The critical user requirement for an append-only Markdown export was fully implemented and verified. The script correctly identifies existing highlights using hidden IDs and only appends new ones, protecting user edits.
+
+- **Iterative Testing and Refinement**: The pipeline was rigorously tested, which revealed and led to fixes for several key issues:
+    - **Environment & Dependencies**: Solved `ModuleNotFoundError` issues by installing dependencies and using an editable install (`pip install -e .`) to correctly resolve the project's Python path.
+    - **Bug Fixes**: Corrected multiple runtime bugs, including a `KeyError` from the config file, Pydantic `ValidationError` and `TypeError` due to version mismatches, and a critical data mapping bug that caused highlight text to be omitted from the output.
+    - **User-Driven Formatting**: Incorporated detailed user feedback to perfect the final output, including implementing a correct color-to-tag map, adding text sanitization for highlights and notes, and fine-tuning the Markdown template with proper line breaks and hidden fields for optimal readability in Obsidian.
+
+- **Documentation**: All project documents (`TASKS.md`, `TECHNICAL.md`, and `SESSION_LOG.md`) have been updated to reflect the final, stable state of the architecture, features, and usage instructions.
+
 ## 4. Immediate Next Step (Start of Next Session)
 
-- **Action**: Correct the final bug found during verification and then begin **Phase 4: Testing and Polish**.
-- **First Task**: Fix the bug where highlight text is missing in the generated Markdown files. This was traced to an incorrect `by_alias` setting during JSON serialization.
-- **Second Task**: After fixing the bug and re-running the sync, perform a second run to explicitly verify the append-only logic for Markdown files.
+- **Action**: The core refactor is complete. The next steps involve optional, non-essential polishing.
+- **First Task**: Decide whether to proceed with the final polishing tasks (e.g., `T022` for logging, `T025-T027` for automated tests) or to conclude the project.
 
