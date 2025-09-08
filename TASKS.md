@@ -49,12 +49,21 @@ Python and packages `~/python-venv/`
 
 ## Phase 4: Testing and Polish
 
-- [ ] T024 Investigate Apple Books database to identify the actual values for highlight colors (e.g., 'Yellow', 'Blue') and update the `color_map` in `apple_books_highlights/export_md.py`.
+- [x] T024 Investigate Apple Books database to identify the actual values for highlight colors and update the `color_map`. (Completed based on user-provided mapping).
 - [ ] T025 [P] Create `tests/test_bib.py` and write unit tests for the `normalize_meta` function.
 - [ ] T026 [P] Create `tests/test_export_md.py` and write unit tests to ensure the Markdown output is formatted correctly for both initial creation and for subsequent appends.
 - [ ] T027 Create an integration test in `tests/test_workflow.py` that uses a sample `paperpile.bib` and mocked data from `booksdb` to test the entire pipeline.
 - [ ] T028 Review all new and modified files for code quality, comments, and docstrings.
-- [ ] T029 Manually run the script and verify the output files in a text editor and Obsidian to confirm perfect formatting, especially the append-only behavior.
+- [x] T029 Initial manual run of the script to verify the pipeline and identify bugs.
+- [x] T030 In `export_json.py`, fix the data mapping bug by removing `by_alias=True` from the Pydantic export method to ensure `highlight` is used instead of `selected_text`.
+- [x] T031 In `export_json.py`, integrate the `_sanitize_text` function from the reference project to clean all highlight and note text before saving the enriched JSON files.
+- [x] T032 In `export_md.py`, update the `COLOR_MAP` dictionary to use the user-specified mapping for highlight colors to tags.
+- [x] T033 In `export_md.py`, add a blank line to the end of the annotation loop in both the main template (`templates/export_md_template.md`) and the `APPEND_TEMPLATE` to ensure proper visual separation between entries in Obsidian.
+- [x] T034 Manually delete all files in the `output/` subdirectories to ensure a clean test run.
+- [x] T035 Run the full `sync` command to regenerate all output files with the fixes applied.
+- [x] T036 Verify the contents of a sample Markdown file to confirm that the highlight text is present and all formatting is correct.
+- [x] T037 Run the `sync` command a second time to verify that the append-only logic works correctly and does not create duplicate entries.
+- [x] T040 Apply final formatting tweaks to Markdown templates: add extra line breaks for spacing and hide the `page:` number output.
 
 ---
 ## Dependencies

@@ -14,28 +14,31 @@ OBSIDIAN_TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 # Based on common observation: 0: Yellow, 1: Green, 2: Blue, 3: Pink, 4: Purple
 # The original `style` field from the DB is the key.
 COLOR_MAP = {
-    0: '#general-ab',      # Yellow
     1: '#important-ab',      # Green
     2: '#reference-note-ab', # Blue
-    3: '#secondary-ab',      # Pink
-    4: '#review-ab'          # Purple
+    3: '#general-ab',        # Yellow
+    4: '#secondary-ab',      # Pink
+    5: '#essential-ab'       # Purple
 }
 
 # This is the template for appending NEW highlights to an existing file.
 APPEND_TEMPLATE = """ 
 
 ### New highlights added on [[@{{ metadata.citation_key }}|{{ date_short }}]]
+
 {% for annotation in annotations %}
 <!-- an_id: {{ annotation.annotation_id }} -->
 - {{ annotation.highlight }}
-{% if annotation.location %}> page: `{{ annotation.location }}`
-{% endif %}{% if annotation.chapter %}> chapter:  `{{ annotation.chapter }}`
+{% if annotation.chapter %}> chapter:  `{{ annotation.chapter }}`
 {% endif %}> tags: {{ annotation.tag | default('#general-ab') }}
 {% if annotation.note %}
 
 >[!memo]
 > {{ annotation.note }}
-{% endif %}{% endfor %}
+{% endif %}
+
+
+{% endfor %}
 """
 
 class MarkdownExporter:

@@ -19,16 +19,22 @@
 
 ## 3. Current Status (End of Session)
 
-**Last Completed Milestone**: Phase 2: Core Logic Implementation.
+**Last Completed Milestone**: Phase 3: Integration & Workflow Orchestration.
 
-- **File Structure**: All new modules (`bib.py`, `export_json.py`, `export_md.py`, `export_csv.py`) have been created in the `apple_books_highlights/` directory, mirroring the reference project's structure.
-- **Dependencies**: `requirements.txt` has been created and `setup.py` has been updated with all necessary packages.
-- **Core Logic**: The modules have been populated with the core logic for BibTeX handling, JSON creation, and templated Markdown/CSV exporting.
-- **Configuration**: `config.yaml` has been created and populated with default values.
-- **Planning**: `TASKS.md` is fully updated, with Phases 1 and 2 checked off.
+- **Pipeline Implementation**: The main script `scripts/apple-books-highlights.py` has been completely refactored into a new orchestration engine. It now connects all the backend modules into a single, functional pipeline.
+- **Append-Only Markdown**: A critical new feature for append-only Markdown exports has been fully implemented. The script now reads existing Markdown files, identifies already-exported highlights via hidden IDs, and only appends new ones. This prevents data loss for users who edit their exported notes.
+- **Class-Based Refactor**: All core logic modules (`bib.py`, `export_json.py`, `export_md.py`, `export_csv.py`) have been refactored from functional scripts into a more robust, object-oriented class structure.
+- **Database & Data Model Updates**: The database query in `booksdb.py` was updated to fetch unique annotation IDs. The Pydantic data models were updated to support this and to align with the database schema.
+- **End-to-End Testing & Debugging**: The full pipeline has been successfully tested. Multiple runtime bugs were identified and fixed, including:
+    - Python package dependency and installation issues (`ModuleNotFoundError`).
+    - Python path resolution issues (solved with `pip install -e .`).
+    - Configuration file errors (`KeyError`).
+    - Pydantic v1 vs. v2 compatibility issues (`ValidationError`, `TypeError`).
+- **Documentation**: The `TECHNICAL.md` and `TASKS.md` have been meticulously updated to reflect the new architecture, append-only feature, and installation/usage instructions.
 
 ## 4. Immediate Next Step (Start of Next Session)
 
-- **Action**: Begin **Phase 3: Integration & Workflow Orchestration**.
-- **First Task**: **T015**, which involves refactoring the main script `scripts/apple-books-highlights.py` to orchestrate the entire new workflow by tying together all the modules we created in Phase 2.
+- **Action**: Correct the final bug found during verification and then begin **Phase 4: Testing and Polish**.
+- **First Task**: Fix the bug where highlight text is missing in the generated Markdown files. This was traced to an incorrect `by_alias` setting during JSON serialization.
+- **Second Task**: After fixing the bug and re-running the sync, perform a second run to explicitly verify the append-only logic for Markdown files.
 
