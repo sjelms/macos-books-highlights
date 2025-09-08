@@ -5,7 +5,7 @@
 # Path to your master BibTeX library file.
 # Can be an absolute path or relative to this project's root directory.
 # Example: /Users/yourname/Documents/papers.bib
-bibtex_path: "_reference_project/paperpile.bib"
+bibtex_path: "apple_books_highlights/epub.bib"
 
 # --- Output Directories ---
 # Where the generated files will be saved.
