@@ -11,5 +11,5 @@ bibtex_path: "apple_books_highlights/epub.bib"
 # Where the generated files will be saved.
 # These are relative to the project's root directory.
 json_output_dir: "output/json"
-md_output_dir: "output/markdown"
+md_output_dir: "/Users/stephenelms/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/Literature Highlights/Apple Books"
 csv_output_dir: "output/csv"
