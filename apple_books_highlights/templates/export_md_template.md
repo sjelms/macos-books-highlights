@@ -16,15 +16,18 @@ aliases:
 ---
 
 ## Highlights for [[@{{ metadata.citation_key }}]] on [[@{{ metadata.citation_key }}|{{ creation_date_short }}]]
+
 {% for annotation in annotations %}
 <!-- an_id: {{ annotation.annotation_id }} -->
 - {{ annotation.highlight }}
-{% if annotation.location %}> page: `{{ annotation.location }}`
-{% endif %}{% if annotation.chapter %}> chapter:  `{{ annotation.chapter }}`
+{% if annotation.chapter %}> chapter:  `{{ annotation.chapter }}`
 {% endif %}> tags: {{ annotation.tag | default('#general-ab') }}
 {% if annotation.note %}
 
 >[!memo]
 > {{ annotation.note }}
-{% endif %}{% endfor %}
+{% endif %}
+
+
+{% endfor %}
 

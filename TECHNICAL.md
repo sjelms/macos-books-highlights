@@ -84,7 +84,7 @@ A unique `annotation_id` is required to manage the append-only export logic.
       "note": "Very interesting example...",
       "location": "2: The Tree of Knowledge",
       "chapter": "2: The Tree of Knowledge",
-      "color": "yellow"
+      "color": 3
     }
   ]
 }
@@ -123,16 +123,21 @@ This structure, including line breaks and hidden IDs, is critical.
 > chapter: `2: The Tree of Knowledge`
 > tags: #general-ab
 
+
 >[!memo]
 > Very interesting example...
 
-### New highlights added on [[@Harari2015-ab|2025-09-08]]
 
 <!-- an_id: 901A3B84-A3C1-4326-8255-2392A644D456 -->
 - A conceptual framework for analysing the relationship between organisational culture and history.
-> page: `1`
 > tags: #secondary-ab
-```
+
+
+### New highlights added on [[@Harari2015-ab|2025-09-08]]
+
+<!-- an_id: 456B3B84-A3C1-4326-8255-2392A644D789 -->
+- A third highlight added later.
+> tags: #important-ab
 
 ## 5. File Naming Convention
 

@@ -3,6 +3,8 @@ Handles the creation of the enriched JSON file.
 """
 import json
 import pathlib
+import html
+import re
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
@@ -50,6 +52,23 @@ class JsonExporter:
         self.output_dir = pathlib.Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
+    def _sanitize_text(self, s: str) -> str:
+        if s is None:
+            return ""
+        # HTML entities → characters (e.g., &amp; → &)
+        s = html.unescape(str(s))
+        # Normalize newlines and remove carriage returns
+        s = s.replace("\r\n", "\n").replace("\r", "\n")
+        # Normalize spaces
+        s = s.replace("\xa0", " ")  # non-breaking space
+        s = s.replace("\u200b", "")  # zero-width space
+        s = s.replace("\ufeff", "")  # BOM
+        s = s.replace("\u00ad", "")  # soft hyphen
+        # Trim each line and collapse intra-line runs of spaces/tabs, then join with a single space
+        lines = [re.sub(r"[\t ]+", " ", ln.strip()) for ln in s.split("\n")]
+        s = " ".join([ln for ln in lines if ln])
+        return s.strip()
+
     def export(self, annotations: List[Dict[str, Any]], bib_librarian: BibTexLibrarian) -> Optional[pathlib.Path]:
         """
         Creates and saves an enriched JSON file for a given book.
@@ -79,6 +98,11 @@ class JsonExporter:
         normalized_meta = bib_librarian.normalize_meta(bib_entry)
         normalized_meta['asset_id'] = asset_id
 
+        # Sanitize text fields before validation
+        for ann in annotations:
+            ann['selected_text'] = self._sanitize_text(ann.get('selected_text'))
+            ann['note'] = self._sanitize_text(ann.get('note'))
+
         # Create Pydantic models
         metadata = Metadata(**normalized_meta)
         parsed_annotations = [Annotation.parse_obj(a) for a in annotations]
@@ -90,8 +114,6 @@ class JsonExporter:
         output_path = self.output_dir / filename
         
         with open(output_path, 'w', encoding='utf-8') as f:
-            # Use .dict() for Pydantic v1, .model_dump() for v2. Assuming v1 for now.
-            # Using by_alias=True to respect the 'selected_text' alias.
-            f.write(enriched_data.model_dump_json(by_alias=True, indent=2))
+            f.write(enriched_data.model_dump_json(indent=2))
 
         return output_path
