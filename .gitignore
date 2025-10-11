@@ -88,3 +88,6 @@ macos-books-highlights.code-workspace
 
 # Gemini Logs
 gemini_log.md
+
+# Environments
+.venv/
