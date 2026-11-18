@@ -91,3 +91,6 @@ gemini_log.md
 
 # Environments
 .venv/
+
+# Personal local configuration
+config.local.yaml

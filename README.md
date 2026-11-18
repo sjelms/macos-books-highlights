@@ -57,6 +57,14 @@ This was the key to Sapiens’ success. In a one-on-one brawl, a Neanderthal wou
 
 ## Options
 
+The `sync` command reads defaults from `config.yaml`. To keep personal paths
+local, create `config.local.yaml` alongside it with only the settings you want
+to override. This file is ignored by Git. For example:
+
+```yaml
+md_output_dir: "/path/to/your/highlights"
+```
+
 To get a list of books (asterisk means there's unsynced highlights):
 
 ```

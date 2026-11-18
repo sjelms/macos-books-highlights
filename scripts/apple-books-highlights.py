@@ -3,6 +3,7 @@
 
 import yaml
 import click
+from pathlib import Path
 from itertools import groupby
 from operator import itemgetter
 
@@ -13,9 +14,14 @@ from apple_books_highlights.export_md import MarkdownExporter
 from apple_books_highlights.export_csv import CsvExporter
 
 def load_config(config_path='config.yaml'):
-    """Loads the YAML configuration file."""
+    """Load shared defaults and any ignored local overrides."""
     with open(config_path, 'r') as f:
-        return yaml.safe_load(f)
+        config = yaml.safe_load(f) or {}
+    local_path = Path(config_path).with_name('config.local.yaml')
+    if local_path.is_file():
+        with local_path.open() as f:
+            config.update(yaml.safe_load(f) or {})
+    return config
 
 @click.group()
 def cli():
